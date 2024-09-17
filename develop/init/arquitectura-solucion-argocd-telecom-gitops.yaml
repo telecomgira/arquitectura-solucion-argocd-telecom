@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: arquitectura-solucion-argocd-telecom-gitops
+  namespace: argocd
+spec:
+  project: sunat-project-telecom
+  source:
+    repoURL: http://172.18.1.15/tecnologia/arquitectura-solucion-argocd-telecom.git
+    path: develop
+    targetRevision: develop
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+      allowEmpty: true

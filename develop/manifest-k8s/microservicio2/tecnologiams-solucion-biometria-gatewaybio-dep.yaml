@@ -1,0 +1,113 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tecnologiams-solucion-biometria-gatewaybio-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: tecnologiams-solucion-biometria-gatewaybio-backend
+  template:
+    metadata:
+      labels:
+        name: tecnologiams-solucion-biometria-gatewaybio-backend
+    spec:
+      imagePullSecrets:
+        - name: registrysunat
+      containers:
+        - image: integracion1-dr-local.artifactory.insi.sunat.peru/microservices/tecnologiams-solucion-biometria-gatewaybio-backend:1.2.0
+          name: tecnologiams-solucion-biometria-gatewaybio-backend
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "400m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+          env:
+            - name: datoNumRuc
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoNumRuc
+            - name: datoCodUsuario
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoCodUsuario
+            - name: datoIpCliente
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoIpCliente
+            - name: datoMacCliente
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoMacCliente
+            - name: datoRespExito
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoRespExito
+            - name: datoFormMin
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoFormMin
+            - name: datoFormWsq
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: datoFormWsq
+            - name: urlMejorHuella
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: urlMejorHuella
+            - name: urlValidaHuella
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: urlValidaHuella
+            - name: urlDataBio
+              valueFrom:
+                configMapKeyRef:
+                  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+                  key: urlDataBio
+          volumeMounts:
+            - mountPath: /config
+              name: tecnologiams-solucion-biometria-gatewaybio-backend                
+          ports:
+            - containerPort: 7174
+              protocol: TCP
+          # livenessProbe:
+            # httpGet:
+              # path: /healthcheck
+              # port: 7174
+            # initialDelaySeconds: 50
+            # periodSeconds: 40
+            # timeoutSeconds: 30
+          # readinessProbe:
+            # httpGet:
+              # path: /healthcheck
+              # port: 7174
+            # failureThreshold: 5
+            # initialDelaySeconds: 10
+            # periodSeconds: 10
+            # timeoutSeconds: 20
+            # successThreshold: 1
+      hostAliases:
+        #- ip: 192.168.56.139
+        #  hostnames:
+        #  - sunatti.k8s.sunat.peru
+      volumes:
+        - name: tecnologiams-solucion-biometria-gatewaybio-backend
+          configMap:
+             name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+             items:
+                - key: config-application-yaml
+                  path: config.yaml

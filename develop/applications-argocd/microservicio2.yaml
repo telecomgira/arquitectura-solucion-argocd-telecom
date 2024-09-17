@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: microservicio2
+  namespace: argocd
+spec:
+  project: sunat-project-telecom
+  source:
+    repoURL: http://172.18.1.15/tecnologia/arquitectura-solucion-argocd-telecom.git
+    targetRevision: develop
+    path: develop/manifest-k8s/microservicio2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: telecom
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+      allowEmpty: true

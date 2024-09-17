@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: sunat-project-telecom
+  namespace: argocd
+  # Finaliser that ensures that the project is not deleted until any application does not reference it
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: ArgoCD Manager for Project Telecom
+  destinations:
+    # Update your namespace
+    - namespace: '*'
+      server: '*'
+#      server: https://kubernetes.default.svc
+  sourceRepos:
+    # Make sure to add your repository here
+    - '*'
+    #- http://gitlab.sunat.peru/arquitectura.gitops/arquitectura-solucion-argocd-telecom.git
+    #- http://gitlab.sunat.peru/arquitectura.gitops/micro2-repo-helm.git
+  clusterResourceWhitelist:
+  - group: ''
+    kind: '*'

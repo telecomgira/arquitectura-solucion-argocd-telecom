@@ -1,0 +1,83 @@
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tecnologiams-solucion-biometria-gatewaybio-backend-configmap
+#para datos que empiezen con '0' reemplazar con 'X'
+data:
+  datoNumRuc: "20131312955"
+  datoCodUsuario: "X8156435"
+  datoIpCliente: "150.50.2.105"
+  datoMacCliente: "F4-93-9F-ED-58-1D"
+  datoRespExito: "70006"
+  datoFormMin: "X02"
+  datoFormWsq: "X03"
+  urlMejorHuella: "http://tecnologiams-solucion-biometria-mejorhuella-backend:7172"
+  urlValidaHuella: "http://tecnologiams-solucion-biometria-validahuella-backend:7171"
+  urlDataBio: "http://tecnologiams-solucion-biometria-cnxdatabio-backend:7173"
+
+#Parametros del configmap.yaml
+  config-application-yaml:  |
+        server:
+          applicationConnectors:
+            - type: http
+              port: 7174
+          requestLog:
+            appenders: []
+        serviceName: tecnologiams-solucion-biometria-gatewaybio-backend
+        
+        logging:
+          level: DEBUG
+          loggers:
+            io.dropwizard: INFO
+            org.eclipse: INFO
+            org.hibernate: INFO
+            org.apache.camel: INFO
+            com.mchange: INFO
+            com.netflix: INFO
+            org.jboss.weld.Version: INFO
+            org.jboss.weld: INFO
+            io.dropwizard.jersey.DropwizardResourceConfig: INFO
+            io.dropwizard.server.ServerFactory: INFO
+            org.glassfish.jersey.server.ServerRuntime: FATAL
+            org.jboss.weld.environment.servlet.logging: INFO
+            com.atomikos.jdbc.AtomikosConnectionProxy: ERROR
+            com.circulosiete.metrics.health.hystrix: INFO
+            pe.gob.sunat: DEBUG
+            okhttp3.OkHttpClient: ERROR
+          appenders:
+            - type: file
+              currentLogFilename: /logs//apps//tecnologiams-solucion-biometria-gatewaybio-backend//tecnologiams-solucion-biometria-gatewaybio-backend.log
+              archivedLogFilenamePattern: /logs//apps//tecnologiams-solucion-biometria-gatewaybio-backend//tecnologiams-solucion-biometria-gatewaybio-backend-%d.log.gz
+              archivedFileCount: 5
+              timeZone: GMT-05:00
+            - type: console
+              timeZone: EST
+            - type: logstash-tcp
+              host: logstash-logforwarder
+              port: 9210
+              timeZone: EST
+              includeCallerData: true
+              includeMdc: true
+              includeContext: true
+              includeCallerInfo: true
+        
+        paramconfig:
+          datoNumRuc: ${datoNumRuc}
+          datoCodUsuario: ${datoCodUsuario}
+          datoIpCliente: ${datoIpCliente}
+          datoMacCliente: ${datoMacCliente}
+          datoRespExito: ${datoRespExito}
+          datoFormMin: ${datoFormMin}
+          datoFormWsq: ${datoFormWsq}
+          urlMejorHuella: ${urlMejorHuella}
+          urlValidaHuella: ${urlValidaHuella}
+          urlDataBio: ${urlDataBio}
+          urlMotorBiometrico: "http://tecnologiams-solucion-biometria-motorbiometrico:7214"
+          urlTransactionStats: "http://tecnologiams-solucion-biometria-stats-backend:7210"
+          datoMinimalScore: 2500
+          # Ver tabla de configuracion en src/main/resources/datoModoConfig.txt
+          datoModoConfig: 0
+          datoRespNoHit: "70007"
+          datoSaveRaw: true
