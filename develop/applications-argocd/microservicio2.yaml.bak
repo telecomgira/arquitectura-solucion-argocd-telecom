@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: arquitectura-solucion-argocd-telecom-gitops
+  name: microservicio2
   namespace: argocd
 spec:
-  project: gira-project-telecom
+  project: sunat-project-telecom
   source:
-    repoURL: https://github.com/telecomgira/arquitectura-solucion-argocd-telecom.git
-    path: develop
+    repoURL: http://172.18.1.15/tecnologia/arquitectura-solucion-argocd-telecom.git
     targetRevision: develop
+    path: develop/manifest-k8s/microservicio2
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: telecom
   syncPolicy:
     automated:
       selfHeal: true

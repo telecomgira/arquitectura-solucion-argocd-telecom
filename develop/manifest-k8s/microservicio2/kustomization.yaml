@@ -1,6 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- tecnologiams-solucion-biometria-gatewaybio-configMap.yaml
-- tecnologiams-solucion-biometria-gatewaybio-dep.yaml
-- tecnologiams-solucion-biometria-gatewaybio-srv-np.yaml
+- hello-world.yaml

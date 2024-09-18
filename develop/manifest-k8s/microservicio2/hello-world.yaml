@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-deployment
+  namespace: demo
+  labels:
+    app: hello-world
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: jsantivanez82/demo:2.0-6
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: "250m"
+          requests:
+            memory: 128Mi
+            cpu: "80m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+  namespace: demo
+spec:
+  selector:
+    app: hello-world
+  ports:
+    - protocol: TCP
+      port: 80 # Puerto expuesto por el Service (puerto interno de Kubernetes)
+      targetPort: 8080 # Puerto del contenedor donde la aplicación está escuchando
+      nodePort: 30081   # Puerto específico en el nodo que se utiliza para el acceso externo
+  type: NodePort

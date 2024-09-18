@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: sunat-project-telecom
+  name: gira-project-telecom
   namespace: argocd
   # Finaliser that ensures that the project is not deleted until any application does not reference it
   finalizers:
