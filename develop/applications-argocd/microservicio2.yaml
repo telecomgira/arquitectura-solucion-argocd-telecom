@@ -4,7 +4,7 @@ metadata:
   name: microservicio2
   namespace: argocd
 spec:
-  project: sunat-project-telecom
+  project: gira-project-telecom
   source:
     repoURL: https://github.com/telecomgira/arquitectura-solucion-argocd-telecom.git
     targetRevision: develop
