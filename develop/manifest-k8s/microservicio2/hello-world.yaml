@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-world-deployment
-  namespace: demo
+  namespace: telecom
   labels:
     app: hello-world
 spec:
@@ -32,7 +32,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hello-world
-  namespace: demo
+  namespace: telecom
 spec:
   selector:
     app: hello-world
